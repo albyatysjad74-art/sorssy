@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081426">
+  <meta name="description" content="واجهة بسيطة لإدارة تطبيقات مصدر iQsign على sorssy.">
+  <title>sorssy — إدارة السورس</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07111f;--panel:#0e1c30;--panel2:#12243b;--line:#243952;--text:#f4f8ff;--muted:#9db1ca;--blue:#69c5ff;--blue2:#318ee8;--green:#72e4be;--danger:#ff9c9c;--shadow:0 22px 70px #0005}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 82% 0%,#14365c 0,transparent 35rem),linear-gradient(160deg,#07111f,#09182a 55%,#07111f);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.65}
+    .wrap{width:min(100% - 28px,900px);margin:auto;padding:28px 0 52px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.2px;font-size:1.15rem}
+    .mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#86dbff,#348de6);box-shadow:0 8px 24px #318ee855;color:#061322}
+    .mark svg{width:24px;height:24px}
+    .top-link{color:var(--muted);text-decoration:none;font-size:.9rem;border:1px solid var(--line);border-radius:999px;padding:8px 13px;white-space:nowrap}
+    .top-link:hover{border-color:var(--blue);color:var(--text)}
+    .hero{padding:28px 30px;border:1px solid #284461;border-radius:24px;background:linear-gradient(115deg,#10233aee,#0b1b2eee);box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:18px}
+    .hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#318ee820;filter:blur(8px);left:-68px;top:-115px;pointer-events:none}
+    .eyebrow{display:inline-flex;align-items:center;gap:7px;border:1px solid #376287;border-radius:999px;padding:4px 10px;color:#b9e7ff;font-size:.78rem;background:#0d2940}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #72e4be}
+    h1{font-size:clamp(1.8rem,5vw,2.55rem);line-height:1.2;margin:14px 0 9px;letter-spacing:-.7px}
+    .hero p{color:#b5c6da;max-width:600px;margin:0;font-size:1rem}
+    .status-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
+    .count{color:#d9e8f8;font-size:.9rem}.count strong{color:var(--blue);font-size:1.08rem}
+    .source-actions{display:flex;gap:9px;flex-wrap:wrap}
+    .small-link{border:1px solid #37516c;border-radius:11px;padding:7px 11px;color:#d8eaff;text-decoration:none;font-size:.85rem;background:#10243a}
+    .small-link:hover{border-color:var(--blue)}
+    .card{background:linear-gradient(180deg,#102038,#0d1a2c);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+    .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
+    h2{font-size:1.25rem;margin:0 0 4px}.sub{color:var(--muted);margin:0;font-size:.9rem}
+    .number{flex:0 0 36px;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#071522;font-weight:900;background:linear-gradient(145deg,#9be4ff,#4ba8f4)}
+    form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .field{min-width:0}.field.full{grid-column:1/-1}
+    label{display:block;font-size:.9rem;font-weight:700;margin-bottom:7px;color:#e4eef9}
+    .req{color:#83d5ff}
+    input,select,textarea{width:100%;border:1px solid #2b425c;border-radius:12px;background:#081626;color:var(--text);padding:12px 13px;font:inherit;font-size:.94rem;outline:none;transition:border-color .15s,box-shadow .15s}
+    input::placeholder,textarea::placeholder{color:#7388a1}
+    input:focus,select:focus,textarea:focus{border-color:#66bfff;box-shadow:0 0 0 3px #4eb7ff1f}
+    textarea{min-height:110px;resize:vertical}
+    .help{font-size:.78rem;color:#8fa4bd;margin:6px 2px 0}
+    .image-row{display:flex;align-items:center;gap:13px}
+    .preview{width:54px;height:54px;border-radius:15px;border:1px solid #33516f;background:#13263c;display:grid;place-items:center;overflow:hidden;flex:0 0 54px;color:#8fa9c5}
+    .preview img{width:100%;height:100%;object-fit:cover;display:none}
+    .image-row input{min-width:0}
+    .action-row{grid-column:1/-1;display:flex;align-items:center;gap:14px;margin-top:4px;flex-wrap:wrap}
+    button{font:inherit;cursor:pointer}
+    .submit{border:0;border-radius:13px;padding:12px 19px;background:linear-gradient(110deg,#77d6ff,#469ff0);color:#061525;font-weight:850;box-shadow:0 8px 22px #318ee833;transition:transform .15s,filter .15s}
+    .submit:hover{transform:translateY(-1px);filter:brightness(1.08)}
+    .submit:disabled{opacity:.65;cursor:wait;transform:none}
+    .action-note{color:var(--muted);font-size:.82rem;max-width:470px;margin:0}
+    .how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+    .step{padding:15px;border:1px solid #203852;border-radius:15px;background:#0b192a;color:#aec0d5;font-size:.85rem}
+    .step b{display:block;color:#e7f3ff;margin-bottom:4px;font-size:.9rem}
+    .step span{color:#69c5ff;margin-left:5px}
+    .notice{border:1px solid #22496a;background:#0c2237;border-radius:14px;padding:13px 15px;color:#b8d5ed;font-size:.87rem;margin-top:14px}
+    .notice strong{color:#d9f1ff}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#10253b;border:1px solid #4a83af;color:#eff8ff;padding:10px 15px;border-radius:12px;box-shadow:var(--shadow);transition:.2s;z-index:5;max-width:calc(100% - 24px);text-align:center}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    footer{margin-top:20px;text-align:center;color:#7890aa;font-size:.78rem}
+    @media(max-width:640px){.wrap{width:min(100% - 20px,900px);padding-top:16px}.hero{padding:22px 19px;border-radius:20px}.card{padding:19px 16px;border-radius:18px}form{grid-template-columns:1fr;gap:14px}.field.full{grid-column:1}.action-row{grid-column:1;align-items:stretch}.submit{width:100%}.action-note{max-width:none}.how{grid-template-columns:1fr}.status-row{align-items:flex-start;flex-direction:column}.top-link{font-size:.8rem;padding:7px 10px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 7.5h12M6 12h12M6 16.5h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="18" cy="16.5" r="2" fill="currentColor"/></svg></span><span>sorssy <span style="color:#8db2d4;font-weight:600">/ إدارة السورس</span></span></div>
+      <a class="top-link" href="https://github.com/albyatysjad74-art/sorssy" target="_blank" rel="noopener">المستودع ↗</a>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow"><i class="dot"></i> لوحة إدارة خاصة بصاحب المستودع</span>
+      <h1>أضف تطبيقك للسورس بسهولة</h1>
+      <p>اكتب اسم التطبيق، صورته، ورابط IPA المباشر. بعد تأكيد الطلب في GitHub، يضيفه النظام إلى ملف السورس تلقائيًا.</p>
+      <div class="status-row">
+        <div class="count">التطبيقات الموجودة: <strong id="app-count">جارٍ التحميل…</strong></div>
+        <div class="source-actions">
+          <a class="small-link" href="./iQsign-Apps-Source.json" target="_blank" rel="noopener">عرض ملف السورس</a>
+          <button class="small-link" id="copy-source" type="button">نسخ رابط السورس</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="form-title">
+      <div class="card-head">
+        <div><h2 id="form-title">بيانات التطبيق</h2><p class="sub">املأ الحقول الأساسية؛ الباقي اختياري.</p></div>
+        <span class="number">1</span>
+      </div>
+      <form id="app-form">
+        <div class="field">
+          <label for="name">اسم التطبيق <span class="req">*</span></label>
+          <input id="name" name="name" maxlength="100" placeholder="مثال: تطبيق تجريبي" required>
+        </div>
+        <div class="field">
+          <label for="bundleIdentifier">معرّف الحزمة <span class="req">*</span></label>
+          <input id="bundleIdentifier" name="bundleIdentifier" maxlength="150" placeholder="com.example.app" required dir="ltr" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="version">الإصدار <span class="req">*</span></label>
+          <input id="version" name="version" maxlength="50" placeholder="1.0.0" required dir="ltr">
+        </div>
+        <div class="field">
+          <label for="category">التصنيف</label>
+          <select id="category" name="category">
+            <option>أدوات</option><option>تواصل</option><option>ترفيه</option><option>ألعاب</option><option>إنتاجية</option><option>تصوير</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="iconURL">رابط صورة التطبيق <span class="req">*</span></label>
+          <div class="image-row"><div class="preview" id="preview-box"><span id="preview-mark">IMG</span><img id="icon-preview" alt="معاينة صورة التطبيق"></div><input id="iconURL" name="iconURL" type="url" placeholder="https://example.com/icon.png" required dir="ltr"></div>
+          <p class="help">استخدم رابط صورة مباشر يبدأ بـ https://؛ تظهر معاينة عند توفرها.</p>
+        </div>
+        <div class="field full">
+          <label for="downloadURL">رابط تنزيل IPA <span class="req">*</span></label>
+          <input id="downloadURL" name="downloadURL" type="url" placeholder="https://example.com/app.ipa" required dir="ltr">
+          <p class="help">ضع رابط التنزيل المباشر أو رابطًا ثابتًا يفتح تنزيل ملف IPA.</p>
+        </div>
+        <div class="field">
+          <label for="sizeMB">الحجم بالميغابايت</label>
+          <input id="sizeMB" name="sizeMB" type="number" min="0.1" step="0.1" placeholder="اختياري" inputmode="decimal" dir="ltr">
+        </div>
+        <div class="field full">
+          <label for="localizedDescription">وصف التطبيق</label>
+          <textarea id="localizedDescription" name="localizedDescription" maxlength="5000" placeholder="اكتب وصفًا مختصرًا أو ملاحظات التثبيت (اختياري)"></textarea>
+        </div>
+        <div class="action-row">
+          <button class="submit" id="submit-btn" type="submit">إضافة إلى السورس <span aria-hidden="true">←</span></button>
+          <p class="action-note">للأمان، ماكو رمز دخول محفوظ بالموقع. راح تراجع البيانات وتضغط «Create issue» في GitHub مرة وحدة.</p>
+        </div>
+      </form>
+    </section>
+
+    <section class="how" aria-label="طريقة الإضافة">
+      <div class="step"><b><span>01</span> املأ البيانات</b>اسم التطبيق والصورة ورابط IPA.</div>
+      <div class="step"><b><span>02</span> أكّد الطلب</b>اضغط «Create issue» في صفحة GitHub التي تفتح.</div>
+      <div class="step"><b><span>03</span> ينضاف تلقائيًا</b>Action يحدّث ملف السورس ويغلق الطلب.</div>
+    </section>
+    <div class="notice"><strong>تنبيه صغير:</strong> الموقع ما يخزن ملفات IPA أو الصور. ارفعها على استضافة موثوقة أولًا، ثم الصق روابطها هنا. الإضافة متاحة لحساب صاحب المستودع فقط.</div>
+    <footer>ملف المصدر يبقى متوافقًا مع iQsign — sorssy</footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const owner = 'albyatysjad74-art';
+    const repo = 'sorssy';
+    const sourceUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/iQsign-Apps-Source.json`;
+    const countEl = document.getElementById('app-count');
+    fetch('./iQsign-Apps-Source.json', {cache:'no-store'})
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+      .then(data => { countEl.textContent = new Intl.NumberFormat('ar').format((data.apps || []).length); })
+      .catch(() => { countEl.textContent = '—'; });
+
+    const toast = document.getElementById('toast');
+    function showToast(message){ toast.textContent = message; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2600); }
+    document.getElementById('copy-source').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(sourceUrl); showToast('تم نسخ رابط السورس'); }
+      catch { window.prompt('انسخ رابط السورس:', sourceUrl); }
+    });
+    const iconInput = document.getElementById('iconURL');
+    const iconPreview = document.getElementById('icon-preview');
+    const previewMark = document.getElementById('preview-mark');
+    iconInput.addEventListener('input', () => {
+      const value = iconInput.value.trim();
+      iconPreview.style.display = 'none'; previewMark.style.display = 'block';
+      if (!value) return;
+      try { const u = new URL(value); if (u.protocol !== 'https:') return; iconPreview.src = value; }
+      catch { return; }
+    });
+    iconPreview.addEventListener('load', () => { iconPreview.style.display='block'; previewMark.style.display='none'; });
+    iconPreview.addEventListener('error', () => { iconPreview.style.display='none'; previewMark.style.display='block'; });
+
+    document.getElementById('app-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const f = event.currentTarget;
+      if (!f.reportValidity()) return;
+      const value = (key) => f.elements.namedItem(key).value;
+      const name = value('name').trim();
+      const bundleIdentifier = value('bundleIdentifier').trim();
+      const version = value('version').trim();
+      const iconURL = value('iconURL').trim();
+      const downloadURL = value('downloadURL').trim();
+      if (!/^[A-Za-z0-9.-]+$/.test(bundleIdentifier) || !bundleIdentifier.includes('.')) { showToast('تحقق من معرّف الحزمة؛ مثال: com.example.app'); return; }
+      for (const raw of [iconURL, downloadURL]) { try { if (new URL(raw).protocol !== 'https:') throw new Error(); } catch { showToast('الروابط لازم تبدأ بـ https://'); return; } }
+      const app = {name, bundleIdentifier, iconURL, category:value('category'), version, downloadURL};
+      const sizeMb = Number(value('sizeMB'));
+      if (Number.isFinite(sizeMb) && sizeMb > 0) app.size = Math.round(sizeMb * 1024 * 1024);
+      const description = value('localizedDescription').trim();
+      if (description) app.localizedDescription = description;
+      const issue = new URL(`https://github.com/${owner}/${repo}/issues/new`);
+      issue.searchParams.set('title', `[Sorssy] إضافة تطبيق: ${name}`);
+      issue.searchParams.set('body', JSON.stringify(app, null, 2));
+      document.getElementById('submit-btn').disabled = true;
+      showToast('جاري فتح صفحة تأكيد الطلب…');
+      window.location.assign(issue.toString());
+    });
+  </script>
+</body>
+</html>
