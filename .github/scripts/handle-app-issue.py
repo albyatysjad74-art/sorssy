@@ -96,9 +96,6 @@ def main() -> None:
         raise ValueError("ملف السورس لا يحتوي قائمة تطبيقات صالحة.")
 
     for current in apps:
-        if current.get("bundleIdentifier", "").casefold() == bundle_id.casefold():
-            result("duplicate", f"يوجد تطبيق بهذا المعرّف مسبقًا ({bundle_id})؛ لم تتم إضافة نسخة مكررة.")
-            return
         if current.get("downloadURL") == download_url:
             result("duplicate", "رابط التنزيل موجود مسبقًا في السورس؛ لم تتم إضافة نسخة مكررة.")
             return

@@ -77,7 +77,7 @@
       <div class="status-row">
         <div class="count">التطبيقات الموجودة: <strong id="app-count">جارٍ التحميل…</strong></div>
         <div class="source-actions">
-          <a class="small-link" href="./iQsign-Apps-Source.json" target="_blank" rel="noopener">عرض ملف السورس</a>
+          <a class="small-link" href="https://raw.githubusercontent.com/albyatysjad74-art/sorssy/main/iQsign-Apps-Source.json" target="_blank" rel="noopener">عرض ملف السورس</a>
           <button class="small-link" id="copy-source" type="button">نسخ رابط السورس</button>
         </div>
       </div>
@@ -146,7 +146,7 @@
     const repo = 'sorssy';
     const sourceUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/iQsign-Apps-Source.json`;
     const countEl = document.getElementById('app-count');
-    fetch('./iQsign-Apps-Source.json', {cache:'no-store'})
+    fetch(sourceUrl, {cache:'no-store'})
       .then(r => { if (!r.ok) throw new Error(); return r.json(); })
       .then(data => { countEl.textContent = new Intl.NumberFormat('ar').format((data.apps || []).length); })
       .catch(() => { countEl.textContent = '—'; });
