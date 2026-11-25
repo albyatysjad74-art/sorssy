@@ -45711,23 +45711,6 @@
           "date": "2026-11-23T00:00:00Z"
         }
       ]
-    },
-    {
-      "name": "اختبار مؤقت sorssy",
-      "bundleIdentifier": "org.sorssy.testworkflow.temporary",
-      "iconURL": "https://example.com/sorssy-test.png",
-      "category": "أخرى",
-      "version": "1.0",
-      "downloadURL": "https://example.com/sorssy-test-temporary.ipa",
-      "versionDate": "2026-11-25T14:20:52Z",
-      "versions": [
-        {
-          "downloadURL": "https://example.com/sorssy-test-temporary.ipa",
-          "version": "1.0",
-          "date": "2026-11-25T14:20:52Z"
-        }
-      ],
-      "localizedDescription": "اختبار تقني مؤقت سيُزال بعد التحقق."
     }
   ]
 }
