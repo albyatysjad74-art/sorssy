@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   add-app:
-    if: github.event.issue.user.login == 'albyatysjad74-art' && startsWith(github.event.issue.title, '[Sorssy]')
+    if: github.event.issue.user.login == 'albyatysjad74-art' && github.event.sender.login == 'albyatysjad74-art' && startsWith(github.event.issue.title, '[Sorssy]')
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository

@@ -64,6 +64,8 @@ def read_event() -> tuple[dict, dict]:
     issue = event.get("issue") or {}
     if (issue.get("user") or {}).get("login") != OWNER:
         raise ValueError("هذا النموذج مخصص لصاحب المستودع فقط.")
+    if (event.get("sender") or {}).get("login") != OWNER:
+        raise ValueError("يجب أن ينفذ الطلب صاحب المستودع بنفسه.")
     if not str(issue.get("title", "")).startswith("[Sorssy]"):
         raise ValueError("عنوان الطلب غير صحيح. أرسل الطلب من صفحة sorssy.")
     body = issue.get("body") or ""
