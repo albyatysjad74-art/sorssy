@@ -8,6 +8,25 @@
   "tintColor": "3c94fc",
   "apps": [
     {
+      "name": "8 Ball Pool — نسخة غير رسمية",
+      "bundleIdentifier": "app.tomato7991.lime1486",
+      "iconURL": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/19/af/80/19af80a7-eb95-39bc-f7a8-6147cf933c39/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
+      "localizedDescription": "نسخة غير رسمية من 8 Ball Pool بإصدار 56.35.0، مرفوعة كما وصلت من ملف صاحب السورس؛ ليست إصدارًا رسميًا من Miniclip. يحتوي ملفها مسبقًا على PoolAccess.dylib، ولم يُحقن أو يُعدّل أي شيء أثناء الرفع.\n\nمن مزايا اللعبة الأساسية بحسب Miniclip (وقد تختلف أو تتطلب اتصالًا أو توفرًا في هذه النسخة):\n- مباريات بليارد فردية أونلاين واللعب مع الأصدقاء.\n- التدريب دون اتصال لصقل مهارات التسديد.\n- اختيار عصي البليارد وجمعها وترقيتها.\n- إنشاء نادٍ أو الانضمام إلى نادٍ، مع قوائم المتصدرين والإحصائيات.\n- فعاليات وأوضاع إضافية مثل 9 Ball والبطولات وLucky Shot، بحسب إتاحتها.\n\nتتطلب هذه النسخة iOS 15 أو أحدث بحسب بيانات الحزمة. قد تحتاج إلى توقيع وتثبيت مناسبين؛ لم يتم توقيع الملف أو اختبار تشغيله. استخدام نسخة غير رسمية قد يعرّض حسابك للمخاطر.",
+      "category": "ألعاب",
+      "version": "56.35.0",
+      "size": 206022273,
+      "downloadURL": "https://github.com/albyatysjad74-art/sorssy/releases/download/8ball-pool-v56.35.0/8ball-pool-56.35.0.ipa",
+      "versionDate": "2026-11-26T14:18:13Z",
+      "versions": [
+        {
+          "downloadURL": "https://github.com/albyatysjad74-art/sorssy/releases/download/8ball-pool-v56.35.0/8ball-pool-56.35.0.ipa",
+          "size": 206022273,
+          "version": "56.35.0",
+          "date": "2026-11-26T14:18:13Z"
+        }
+      ]
+    },
+    {
       "name": "ريكرام",
       "bundleIdentifier": "com.burbn.instagram",
       "iconURL": "https://ikiraplus-assets.pages.dev/images/app-1773401165477.png",

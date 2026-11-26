@@ -54,7 +54,7 @@ jobs:
               issue_number: context.issue.number,
               body
             });
-            if (['added', 'edited', 'source_added', 'duplicate'].includes(status)) {
+            if (['added', 'edited', 'source_added', 'duplicate', 'unchanged'].includes(status)) {
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,

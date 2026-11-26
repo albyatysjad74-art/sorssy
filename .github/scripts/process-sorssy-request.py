@@ -86,10 +86,10 @@ def read_source() -> tuple[dict, list]:
     return source, apps
 
 
-def parse_app_fields(data: dict) -> dict:
+def parse_app_fields(data: dict, *, existing_bundle: str | None = None) -> dict:
     name = text_field(data, "name", required=True, limit=100)
     bundle_id = text_field(data, "bundleIdentifier", required=True, limit=150)
-    if not valid_bundle_id(bundle_id):
+    if not valid_bundle_id(bundle_id) and bundle_id != existing_bundle:
         raise ValueError("معرّف الحزمة غير صحيح؛ استخدم صيغة مثل com.example.app.")
     version = text_field(data, "version", required=True, limit=50)
     category = text_field(data, "category", limit=50) or "أخرى"
@@ -147,7 +147,8 @@ def find_target(apps: list, target: dict) -> tuple[int, dict]:
 def edit_app(data: dict) -> None:
     source, apps = read_source()
     index, app = find_target(apps, data.get("target"))
-    changes = parse_app_fields(data.get("changes") or {})
+    before = json.dumps(app, ensure_ascii=False, sort_keys=True)
+    changes = parse_app_fields(data.get("changes") or {}, existing_bundle=app.get("bundleIdentifier"))
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     changed_version = app.get("version") != changes["version"] or app.get("downloadURL") != changes["downloadURL"]
     for key in ("name", "bundleIdentifier", "version", "category", "iconURL", "downloadURL"):
@@ -171,6 +172,9 @@ def edit_app(data: dict) -> None:
         if not any(v.get("version") == changes["version"] and v.get("downloadURL") == changes["downloadURL"] for v in versions if isinstance(v, dict)):
             versions.insert(0, version_item)
         app["versions"] = versions
+    if json.dumps(app, ensure_ascii=False, sort_keys=True) == before:
+        result("unchanged", "لم تتغير أي بيانات؛ لا حاجة لتحديث السورس.")
+        return
     SOURCE_PATH.write_text(json.dumps(source, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     result("edited", f"تم حفظ تعديلات {changes['name']} في السورس.", True)
 
