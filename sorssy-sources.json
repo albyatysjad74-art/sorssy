@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "id": "sorssy-main",
+      "name": "sorssy",
+      "subtitle": "مصدر تطبيقات iQsign باللغة العربية",
+      "iconURL": "https://github.com/Nyasami/Ksign/blob/v1.5/Ksign/Resources/AppIcons/kana_peek.png?raw=true",
+      "url": "https://raw.githubusercontent.com/albyatysjad74-art/sorssy/main/iQsign-Apps-Source.json",
+      "editable": true
+    }
+  ]
+}

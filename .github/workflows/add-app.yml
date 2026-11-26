@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   add-app:
-    if: github.event.issue.user.login == 'albyatysjad74-art' && startsWith(github.event.issue.title, '[Sorssy] إضافة تطبيق:')
+    if: github.event.issue.user.login == 'albyatysjad74-art' && startsWith(github.event.issue.title, '[Sorssy]')
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -24,15 +24,15 @@ jobs:
         id: process
         env:
           EVENT_PATH: ${{ github.event_path }}
-        run: python3 .github/scripts/handle-app-issue.py
+        run: python3 .github/scripts/process-sorssy-request.py
 
       - name: Commit updated source
-        if: steps.process.outputs.status == 'added'
+        if: steps.process.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add iQsign-Apps-Source.json
-          git commit -m "Add app submitted through sorssy"
+          git add iQsign-Apps-Source.json sorssy-sources.json
+          git commit -m "Update sorssy catalog from owner request"
           git push
 
       - name: Comment on request
@@ -45,7 +45,7 @@ jobs:
             const status = process.env.RESULT_STATUS || 'invalid';
             const message = process.env.RESULT_MESSAGE || 'تعذّر معالجة الطلب. راجع بيانات التطبيق وحاول مرة ثانية.';
             let body = message;
-            if (status === 'added') {
+            if (['added', 'edited', 'source_added'].includes(status)) {
               body += '\n\nتم تحديث ملف السورس بنجاح. رابط السورس: https://raw.githubusercontent.com/albyatysjad74-art/sorssy/main/iQsign-Apps-Source.json';
             }
             await github.rest.issues.createComment({
@@ -54,7 +54,7 @@ jobs:
               issue_number: context.issue.number,
               body
             });
-            if (status === 'added' || status === 'duplicate') {
+            if (['added', 'edited', 'source_added', 'duplicate'].includes(status)) {
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,

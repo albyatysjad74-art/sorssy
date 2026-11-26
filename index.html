@@ -4,196 +4,122 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#081426">
-  <meta name="description" content="واجهة بسيطة لإدارة تطبيقات مصدر iQsign على sorssy.">
-  <title>sorssy — إدارة السورس</title>
+  <meta name="description" content="لوحة إدارة مصادر وتطبيقات sorssy.">
+  <title>sorssy — إدارة المصادر والتطبيقات</title>
   <style>
-    :root{color-scheme:dark;--bg:#07111f;--panel:#0e1c30;--panel2:#12243b;--line:#243952;--text:#f4f8ff;--muted:#9db1ca;--blue:#69c5ff;--blue2:#318ee8;--green:#72e4be;--danger:#ff9c9c;--shadow:0 22px 70px #0005}
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 82% 0%,#14365c 0,transparent 35rem),linear-gradient(160deg,#07111f,#09182a 55%,#07111f);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.65}
-    .wrap{width:min(100% - 28px,900px);margin:auto;padding:28px 0 52px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.2px;font-size:1.15rem}
-    .mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#86dbff,#348de6);box-shadow:0 8px 24px #318ee855;color:#061322}
-    .mark svg{width:24px;height:24px}
-    .top-link{color:var(--muted);text-decoration:none;font-size:.9rem;border:1px solid var(--line);border-radius:999px;padding:8px 13px;white-space:nowrap}
-    .top-link:hover{border-color:var(--blue);color:var(--text)}
-    .hero{padding:28px 30px;border:1px solid #284461;border-radius:24px;background:linear-gradient(115deg,#10233aee,#0b1b2eee);box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:18px}
-    .hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#318ee820;filter:blur(8px);left:-68px;top:-115px;pointer-events:none}
-    .eyebrow{display:inline-flex;align-items:center;gap:7px;border:1px solid #376287;border-radius:999px;padding:4px 10px;color:#b9e7ff;font-size:.78rem;background:#0d2940}
-    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #72e4be}
-    h1{font-size:clamp(1.8rem,5vw,2.55rem);line-height:1.2;margin:14px 0 9px;letter-spacing:-.7px}
-    .hero p{color:#b5c6da;max-width:600px;margin:0;font-size:1rem}
-    .status-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
-    .count{color:#d9e8f8;font-size:.9rem}.count strong{color:var(--blue);font-size:1.08rem}
-    .source-actions{display:flex;gap:9px;flex-wrap:wrap}
-    .small-link{border:1px solid #37516c;border-radius:11px;padding:7px 11px;color:#d8eaff;text-decoration:none;font-size:.85rem;background:#10243a}
-    .small-link:hover{border-color:var(--blue)}
-    .card{background:linear-gradient(180deg,#102038,#0d1a2c);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
-    .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
-    h2{font-size:1.25rem;margin:0 0 4px}.sub{color:var(--muted);margin:0;font-size:.9rem}
-    .number{flex:0 0 36px;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#071522;font-weight:900;background:linear-gradient(145deg,#9be4ff,#4ba8f4)}
-    form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .field{min-width:0}.field.full{grid-column:1/-1}
-    label{display:block;font-size:.9rem;font-weight:700;margin-bottom:7px;color:#e4eef9}
-    .req{color:#83d5ff}
-    input,select,textarea{width:100%;border:1px solid #2b425c;border-radius:12px;background:#081626;color:var(--text);padding:12px 13px;font:inherit;font-size:.94rem;outline:none;transition:border-color .15s,box-shadow .15s}
-    input::placeholder,textarea::placeholder{color:#7388a1}
-    input:focus,select:focus,textarea:focus{border-color:#66bfff;box-shadow:0 0 0 3px #4eb7ff1f}
-    textarea{min-height:110px;resize:vertical}
-    .help{font-size:.78rem;color:#8fa4bd;margin:6px 2px 0}
-    .image-row{display:flex;align-items:center;gap:13px}
-    .preview{width:54px;height:54px;border-radius:15px;border:1px solid #33516f;background:#13263c;display:grid;place-items:center;overflow:hidden;flex:0 0 54px;color:#8fa9c5}
-    .preview img{width:100%;height:100%;object-fit:cover;display:none}
-    .image-row input{min-width:0}
-    .action-row{grid-column:1/-1;display:flex;align-items:center;gap:14px;margin-top:4px;flex-wrap:wrap}
-    button{font:inherit;cursor:pointer}
-    .submit{border:0;border-radius:13px;padding:12px 19px;background:linear-gradient(110deg,#77d6ff,#469ff0);color:#061525;font-weight:850;box-shadow:0 8px 22px #318ee833;transition:transform .15s,filter .15s}
-    .submit:hover{transform:translateY(-1px);filter:brightness(1.08)}
-    .submit:disabled{opacity:.65;cursor:wait;transform:none}
-    .action-note{color:var(--muted);font-size:.82rem;max-width:470px;margin:0}
-    .how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
-    .step{padding:15px;border:1px solid #203852;border-radius:15px;background:#0b192a;color:#aec0d5;font-size:.85rem}
-    .step b{display:block;color:#e7f3ff;margin-bottom:4px;font-size:.9rem}
-    .step span{color:#69c5ff;margin-left:5px}
-    .notice{border:1px solid #22496a;background:#0c2237;border-radius:14px;padding:13px 15px;color:#b8d5ed;font-size:.87rem;margin-top:14px}
-    .notice strong{color:#d9f1ff}
-    .toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#10253b;border:1px solid #4a83af;color:#eff8ff;padding:10px 15px;border-radius:12px;box-shadow:var(--shadow);transition:.2s;z-index:5;max-width:calc(100% - 24px);text-align:center}
-    .toast.show{opacity:1;transform:translate(-50%,0)}
-    footer{margin-top:20px;text-align:center;color:#7890aa;font-size:.78rem}
-    @media(max-width:640px){.wrap{width:min(100% - 20px,900px);padding-top:16px}.hero{padding:22px 19px;border-radius:20px}.card{padding:19px 16px;border-radius:18px}form{grid-template-columns:1fr;gap:14px}.field.full{grid-column:1}.action-row{grid-column:1;align-items:stretch}.submit{width:100%}.action-note{max-width:none}.how{grid-template-columns:1fr}.status-row{align-items:flex-start;flex-direction:column}.top-link{font-size:.8rem;padding:7px 10px}}
+    :root{color-scheme:dark;--bg:#07111f;--panel:#0e1c30;--panel2:#12243b;--line:#263e59;--text:#f4f8ff;--muted:#9db1ca;--blue:#72cbff;--blue2:#398fe5;--green:#72e4be;--red:#ffaaaa;--shadow:0 20px 60px #0005}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 82% 0%,#17385c 0,transparent 34rem),linear-gradient(160deg,#07111f,#09182a 55%,#07111f);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.6}
+    .wrap{width:min(100% - 24px,1100px);margin:auto;padding:20px 0 48px}header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}.brand{display:flex;align-items:center;gap:11px;font-size:1.15rem;font-weight:850}.mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#8cddff,#348ee8);color:#061525;box-shadow:0 8px 22px #318ee844}.mark svg{width:24px;height:24px}.head-actions,.row-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+    button,a{font:inherit}button{cursor:pointer}.btn,.link-btn{border:1px solid #37516c;border-radius:11px;padding:9px 13px;background:#10243a;color:#e1f1ff;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:.9rem}.btn:hover,.link-btn:hover{border-color:var(--blue);background:#132b45}.btn.primary{border:0;background:linear-gradient(110deg,#7bd8ff,#469ff0);color:#061525;font-weight:850;box-shadow:0 7px 20px #318ee833}.btn.primary:hover{filter:brightness(1.08)}.btn.ghost{background:transparent}.btn:disabled{opacity:.55;cursor:not-allowed}
+    .hero{padding:26px 28px;border:1px solid #284461;border-radius:23px;background:linear-gradient(115deg,#10233aee,#0b1b2eee);box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:22px}.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#318ee820;filter:blur(8px);left:-68px;top:-115px;pointer-events:none}.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid #376287;border-radius:999px;padding:4px 10px;color:#b9e7ff;font-size:.8rem;background:#0d2940}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #72e4be}h1{font-size:clamp(1.75rem,4.5vw,2.4rem);line-height:1.2;margin:13px 0 9px;letter-spacing:-.5px}.hero p{color:#b5c6da;max-width:700px;margin:0}.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:19px}.stat{border:1px solid #2d4863;background:#0c2034;border-radius:12px;padding:8px 12px;color:#bdd0e4;font-size:.85rem}.stat strong{color:var(--blue);font-size:1rem;margin-inline-start:5px}
+    .section{margin-top:22px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.section-head h2{font-size:1.22rem;margin:0}.section-head p{font-size:.85rem;color:var(--muted);margin:3px 0 0}.source-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:13px}.source-card{border:1px solid var(--line);border-radius:18px;padding:16px;background:linear-gradient(180deg,#102038,#0d1a2c);box-shadow:0 12px 36px #0003;display:flex;flex-direction:column;gap:12px}.source-top{display:flex;align-items:center;gap:12px}.source-icon{width:50px;height:50px;flex:0 0 50px;border:1px solid #35506c;background:#132941;border-radius:15px;object-fit:cover}.source-name{font-weight:850;font-size:1.05rem}.source-sub{color:var(--muted);font-size:.82rem}.source-meta{display:flex;gap:8px;flex-wrap:wrap;color:#adc1d8;font-size:.8rem}.tag{border:1px solid #2d4863;border-radius:999px;padding:3px 9px;background:#0b1b2c}.source-card .row-actions{margin-top:auto;justify-content:space-between}.muted{color:var(--muted)}
+    .library{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#102038,#0d1a2c);padding:18px;box-shadow:var(--shadow);margin-top:21px}.library-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}.source-title{display:flex;align-items:center;gap:11px;min-width:0;flex:1}.source-title img{width:42px;height:42px;border-radius:13px;border:1px solid #37516c;object-fit:cover;background:#13263c}.source-title h2{font-size:1.15rem;margin:0}.source-title p{font-size:.8rem;color:var(--muted);margin:2px 0 0}.toolbar{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:10px;margin:12px 0 15px}input,select,textarea{width:100%;border:1px solid #2b425c;border-radius:11px;background:#081626;color:var(--text);padding:11px 12px;font:inherit;font-size:.92rem;outline:none}input::placeholder,textarea::placeholder{color:#7388a1}input:focus,select:focus,textarea:focus{border-color:#66bfff;box-shadow:0 0 0 3px #4eb7ff1f}textarea{min-height:135px;resize:vertical}.app-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:10px}.app-card{display:flex;align-items:center;gap:11px;padding:11px;border:1px solid #203852;background:#0b192a;border-radius:15px;min-width:0;text-align:right;color:var(--text);width:100%}.app-card:hover{border-color:#4b89b8;background:#10223a}.app-icon{width:48px;height:48px;flex:0 0 48px;border-radius:14px;object-fit:cover;border:1px solid #34516f;background:#13263c}.app-info{min-width:0;flex:1}.app-name{font-weight:780;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.app-sub{font-size:.75rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.edit-mark{font-size:.75rem;color:var(--blue)}.empty{color:var(--muted);text-align:center;padding:25px 12px}.pager{text-align:center;margin-top:15px}.notice{margin-top:17px;border:1px solid #22496a;background:#0c2237;border-radius:14px;padding:12px 14px;color:#b8d5ed;font-size:.83rem}.notice strong{color:#d9f1ff}footer{text-align:center;color:#7890aa;font-size:.78rem;margin-top:22px}
+    dialog{border:1px solid #385674;border-radius:20px;background:#0c1b2d;color:var(--text);padding:0;width:min(94vw,700px);max-height:90vh;box-shadow:0 30px 90px #000a}dialog::backdrop{background:#020812bf;backdrop-filter:blur(4px)}.modal-inner{padding:20px;max-height:90vh;overflow:auto}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:15px}.modal-head h2{font-size:1.2rem;margin:0}.modal-head p{color:var(--muted);font-size:.82rem;margin:3px 0 0}.close{border:1px solid #344e68;background:#10243a;color:#d9ebfc;border-radius:10px;width:38px;height:38px;font-size:1.2rem}.app-identity{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #243e58;background:#0a1929;border-radius:15px;margin-bottom:15px}.app-identity img{width:58px;height:58px;border-radius:15px;object-fit:cover;background:#13263c}.app-identity strong{display:block}.app-identity small{display:block;color:var(--muted);direction:ltr;text-align:right;overflow-wrap:anywhere}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{min-width:0}.field.full{grid-column:1/-1}label{display:block;font-size:.86rem;font-weight:700;margin-bottom:6px;color:#e4eef9}.help{font-size:.76rem;color:#8fa4bd;margin:5px 2px 0}.modal-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;flex-wrap:wrap}.readonly-note{color:#ffdfa6;font-size:.8rem}.toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,18px);opacity:0;pointer-events:none;background:#10253b;border:1px solid #4a83af;color:#eff8ff;padding:10px 15px;border-radius:12px;box-shadow:var(--shadow);transition:.2s;z-index:5;max-width:calc(100% - 24px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}[hidden]{display:none!important}
+    @media(max-width:650px){.wrap{width:min(100% - 18px,1100px);padding-top:13px}header{margin-bottom:15px}.brand{font-size:1rem}.mark{width:38px;height:38px}.head-actions .btn{padding:8px 10px;font-size:.82rem}.hero{padding:21px 18px;border-radius:19px}.section-head{align-items:flex-start}.section-head .row-actions{justify-content:flex-end}.library{padding:13px;border-radius:17px}.library-head{align-items:flex-start}.source-title{flex:1 1 100%}.toolbar{grid-template-columns:1fr}.app-list{grid-template-columns:1fr}.source-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:1}.modal-inner{padding:16px}.modal-actions .btn.primary{width:100%}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 7.5h12M6 12h12M6 16.5h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="18" cy="16.5" r="2" fill="currentColor"/></svg></span><span>sorssy <span style="color:#8db2d4;font-weight:600">/ إدارة السورس</span></span></div>
-      <a class="top-link" href="https://github.com/albyatysjad74-art/sorssy" target="_blank" rel="noopener">المستودع ↗</a>
+      <div class="brand"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M6 7.5h12M6 12h12M6 16.5h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="18" cy="16.5" r="2" fill="currentColor"/></svg></span><span>sorssy <span class="muted" style="font-weight:600">/ إدارة المصادر</span></span></div>
+      <div class="head-actions"><a class="link-btn" href="https://github.com/albyatysjad74-art/sorssy" target="_blank" rel="noopener">المستودع ↗</a><button class="btn primary" id="add-source-top" type="button">＋ إضافة مصدر</button></div>
     </header>
-
     <section class="hero">
-      <span class="eyebrow"><i class="dot"></i> لوحة إدارة خاصة بصاحب المستودع</span>
-      <h1>أضف تطبيقك للسورس بسهولة</h1>
-      <p>اكتب اسم التطبيق، صورته، ورابط IPA المباشر. بعد تأكيد الطلب في GitHub، يضيفه النظام إلى ملف السورس تلقائيًا.</p>
-      <div class="status-row">
-        <div class="count">التطبيقات الموجودة: <strong id="app-count">جارٍ التحميل…</strong></div>
-        <div class="source-actions">
-          <a class="small-link" href="https://raw.githubusercontent.com/albyatysjad74-art/sorssy/main/iQsign-Apps-Source.json" target="_blank" rel="noopener">عرض ملف السورس</a>
-          <button class="small-link" id="copy-source" type="button">نسخ رابط السورس</button>
-        </div>
-      </div>
+      <span class="eyebrow"><i class="dot"></i> لوحة مصادر وتطبيقات</span>
+      <h1>كل مصادر التطبيقات بمكان واحد</h1>
+      <p>افتح أي مصدر، تصفح تطبيقاته وابحث عنها. في مصدر sorssy تقدر تفتح التطبيق وتعدّل اسمه ووصفه وصورته وبقية بياناته؛ الحفظ يتم عبر طلب GitHub آمن بدون تخزين رمز دخول بالموقع.</p>
+      <div class="stats"><span class="stat">المصادر <strong id="source-count">—</strong></span><span class="stat">التطبيقات المحمّلة <strong id="apps-count">—</strong></span></div>
     </section>
 
-    <section class="card" aria-labelledby="form-title">
-      <div class="card-head">
-        <div><h2 id="form-title">بيانات التطبيق</h2><p class="sub">املأ الحقول الأساسية؛ الباقي اختياري.</p></div>
-        <span class="number">1</span>
-      </div>
-      <form id="app-form">
-        <div class="field">
-          <label for="name">اسم التطبيق <span class="req">*</span></label>
-          <input id="name" name="name" maxlength="100" placeholder="مثال: تطبيق تجريبي" required>
-        </div>
-        <div class="field">
-          <label for="bundleIdentifier">معرّف الحزمة <span class="req">*</span></label>
-          <input id="bundleIdentifier" name="bundleIdentifier" maxlength="150" placeholder="com.example.app" required dir="ltr" autocomplete="off">
-        </div>
-        <div class="field">
-          <label for="version">الإصدار <span class="req">*</span></label>
-          <input id="version" name="version" maxlength="50" placeholder="1.0.0" required dir="ltr">
-        </div>
-        <div class="field">
-          <label for="category">التصنيف</label>
-          <select id="category" name="category">
-            <option>أدوات</option><option>تواصل</option><option>ترفيه</option><option>ألعاب</option><option>إنتاجية</option><option>تصوير</option><option>أخرى</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label for="iconURL">رابط صورة التطبيق <span class="req">*</span></label>
-          <div class="image-row"><div class="preview" id="preview-box"><span id="preview-mark">IMG</span><img id="icon-preview" alt="معاينة صورة التطبيق"></div><input id="iconURL" name="iconURL" type="url" placeholder="https://example.com/icon.png" required dir="ltr"></div>
-          <p class="help">استخدم رابط صورة مباشر يبدأ بـ https://؛ تظهر معاينة عند توفرها.</p>
-        </div>
-        <div class="field full">
-          <label for="downloadURL">رابط تنزيل IPA <span class="req">*</span></label>
-          <input id="downloadURL" name="downloadURL" type="url" placeholder="https://example.com/app.ipa" required dir="ltr">
-          <p class="help">ضع رابط التنزيل المباشر أو رابطًا ثابتًا يفتح تنزيل ملف IPA.</p>
-        </div>
-        <div class="field">
-          <label for="sizeMB">الحجم بالميغابايت</label>
-          <input id="sizeMB" name="sizeMB" type="number" min="0.1" step="0.1" placeholder="اختياري" inputmode="decimal" dir="ltr">
-        </div>
-        <div class="field full">
-          <label for="localizedDescription">وصف التطبيق</label>
-          <textarea id="localizedDescription" name="localizedDescription" maxlength="5000" placeholder="اكتب وصفًا مختصرًا أو ملاحظات التثبيت (اختياري)"></textarea>
-        </div>
-        <div class="action-row">
-          <button class="submit" id="submit-btn" type="submit">إضافة إلى السورس <span aria-hidden="true">←</span></button>
-          <p class="action-note">للأمان، ماكو رمز دخول محفوظ بالموقع. راح تراجع البيانات وتضغط «Create issue» في GitHub مرة وحدة.</p>
-        </div>
-      </form>
+    <section class="section" id="sources-section">
+      <div class="section-head"><div><h2>مصادري</h2><p>أضف رابط مصدر JSON عام، أو افتح المصدر الحالي لإدارة تطبيقاته.</p></div><button class="btn" id="add-source-main" type="button">＋ مصدر جديد</button></div>
+      <div class="source-grid" id="sources-grid"><p class="empty">جارٍ تحميل المصادر…</p></div>
     </section>
 
-    <section class="how" aria-label="طريقة الإضافة">
-      <div class="step"><b><span>01</span> املأ البيانات</b>اسم التطبيق والصورة ورابط IPA.</div>
-      <div class="step"><b><span>02</span> أكّد الطلب</b>اضغط «Create issue» في صفحة GitHub التي تفتح.</div>
-      <div class="step"><b><span>03</span> ينضاف تلقائيًا</b>Action يحدّث ملف السورس ويغلق الطلب.</div>
+    <section class="library" id="library" hidden>
+      <div class="library-head">
+        <button class="btn ghost" id="back-sources" type="button">→ المصادر</button>
+        <div class="source-title"><img id="active-icon" alt=""><div><h2 id="active-name"></h2><p id="active-subtitle"></p></div></div>
+        <div class="row-actions"><a class="link-btn" id="raw-source-link" target="_blank" rel="noopener">JSON ↗</a><button class="btn primary" id="add-app-btn" type="button">＋ إضافة تطبيق</button></div>
+      </div>
+      <div class="toolbar"><input id="search-apps" type="search" placeholder="ابحث باسم التطبيق أو معرّف الحزمة…"><select id="category-filter"><option value="">كل التصنيفات</option></select></div>
+      <div class="app-list" id="apps-list"></div><p class="empty" id="apps-empty" hidden>ماكو تطبيقات تطابق البحث.</p>
+      <div class="pager"><button class="btn" id="load-more" type="button" hidden>عرض المزيد</button></div>
     </section>
-    <div class="notice"><strong>تنبيه صغير:</strong> الموقع ما يخزن ملفات IPA أو الصور. ارفعها على استضافة موثوقة أولًا، ثم الصق روابطها هنا. الإضافة متاحة لحساب صاحب المستودع فقط.</div>
-    <footer>ملف المصدر يبقى متوافقًا مع iQsign — sorssy</footer>
+    <div class="notice"><strong>ملاحظة:</strong> المصادر الخارجية تُعرض للقراءة فقط. تقدر تعدّل وتحفظ التطبيقات في مصدر sorssy؛ بعد الحفظ أكّد الطلب في GitHub حتى يتحدث ملف المصدر.</div>
+    <footer>ملفات التطبيق تبقى عند مصادرها الأصلية — sorssy</footer>
   </div>
+
+  <dialog id="app-dialog"><div class="modal-inner"><div class="modal-head"><div><h2 id="app-dialog-title">بيانات التطبيق</h2><p id="app-dialog-subtitle">افتح التطبيق لتعديل بياناته.</p></div><button class="close" data-close="app-dialog" aria-label="إغلاق" type="button">×</button></div>
+    <div class="app-identity"><img id="edit-icon-preview" alt=""><div><strong id="edit-app-name"></strong><small id="edit-app-id"></small></div></div>
+    <form id="edit-app-form"><div class="form-grid">
+      <div class="field"><label for="edit-name">اسم التطبيق</label><input id="edit-name" name="name" maxlength="100" required></div>
+      <div class="field"><label for="edit-bundle">معرّف الحزمة</label><input id="edit-bundle" name="bundleIdentifier" maxlength="150" dir="ltr" required></div>
+      <div class="field"><label for="edit-version">الإصدار</label><input id="edit-version" name="version" maxlength="50" dir="ltr" required></div>
+      <div class="field"><label for="edit-category">التصنيف</label><select id="edit-category" name="category"><option>أدوات</option><option>تواصل</option><option>ترفيه</option><option>ألعاب</option><option>إنتاجية</option><option>تصوير</option><option>أخرى</option></select></div>
+      <div class="field full"><label for="edit-icon">رابط الأيقونة</label><input id="edit-icon" name="iconURL" type="url" dir="ltr" required></div>
+      <div class="field full"><label for="edit-download">رابط التنزيل</label><input id="edit-download" name="downloadURL" type="url" dir="ltr" required></div>
+      <div class="field"><label for="edit-size">الحجم (MB)</label><input id="edit-size" name="sizeMB" type="number" min="0.1" step="0.1" inputmode="decimal" dir="ltr"></div>
+      <div class="field full"><label for="edit-description">وصف التطبيق</label><textarea id="edit-description" name="localizedDescription" maxlength="5000" placeholder="اكتب وصف التطبيق"></textarea></div>
+    </div><div class="modal-actions"><span class="readonly-note" id="readonly-note" hidden>هذا مصدر خارجي؛ العرض فقط.</span><button class="btn primary" id="save-edit" type="submit">حفظ التعديلات</button></div></form>
+  </div></dialog>
+
+  <dialog id="source-dialog"><div class="modal-inner"><div class="modal-head"><div><h2>إضافة مصدر</h2><p>أضف رابط JSON عام لعرض تطبيقاته في هذه اللوحة.</p></div><button class="close" data-close="source-dialog" aria-label="إغلاق" type="button">×</button></div>
+    <form id="source-form"><div class="form-grid"><div class="field"><label for="new-source-name">اسم المصدر</label><input id="new-source-name" name="name" maxlength="100" required placeholder="اسم واضح للمصدر"></div><div class="field"><label for="new-source-subtitle">وصف مختصر</label><input id="new-source-subtitle" name="subtitle" maxlength="200" placeholder="اختياري"></div><div class="field full"><label for="new-source-url">رابط ملف المصدر JSON</label><input id="new-source-url" name="url" type="url" required dir="ltr" placeholder="https://example.com/source.json"><p class="help">لازم يكون رابط HTTPS لملف مصدر عام قابل للقراءة.</p></div><div class="field full"><label for="new-source-icon">رابط أيقونة المصدر (اختياري)</label><input id="new-source-icon" name="iconURL" type="url" dir="ltr" placeholder="https://example.com/icon.png"></div></div><div class="modal-actions"><span class="muted" style="font-size:.8rem">راح تراجع الطلب في GitHub مرة وحدة.</span><button class="btn primary" type="submit">إضافة المصدر</button></div></form>
+  </div></dialog>
+
+  <dialog id="add-app-dialog"><div class="modal-inner"><div class="modal-head"><div><h2>إضافة تطبيق إلى sorssy</h2><p>أدخل بياناته ورابط صورة وIPA.</p></div><button class="close" data-close="add-app-dialog" aria-label="إغلاق" type="button">×</button></div>
+    <form id="add-app-form"><div class="form-grid"><div class="field"><label for="new-app-name">اسم التطبيق</label><input id="new-app-name" name="name" required maxlength="100"></div><div class="field"><label for="new-app-bundle">معرّف الحزمة</label><input id="new-app-bundle" name="bundleIdentifier" required maxlength="150" dir="ltr" placeholder="com.example.app"></div><div class="field"><label for="new-app-version">الإصدار</label><input id="new-app-version" name="version" required maxlength="50" dir="ltr"></div><div class="field"><label for="new-app-category">التصنيف</label><select id="new-app-category" name="category"><option>ألعاب</option><option>أدوات</option><option>تواصل</option><option>ترفيه</option><option>إنتاجية</option><option>تصوير</option><option>أخرى</option></select></div><div class="field full"><label for="new-app-icon">رابط الأيقونة</label><input id="new-app-icon" name="iconURL" required type="url" dir="ltr"></div><div class="field full"><label for="new-app-download">رابط التنزيل المباشر</label><input id="new-app-download" name="downloadURL" required type="url" dir="ltr"></div><div class="field"><label for="new-app-size">الحجم (MB)</label><input id="new-app-size" name="sizeMB" type="number" min="0.1" step="0.1" dir="ltr"></div><div class="field full"><label for="new-app-description">الوصف</label><textarea id="new-app-description" name="localizedDescription" maxlength="5000"></textarea></div></div><div class="modal-actions"><span class="muted" style="font-size:.8rem">الموقع ما يرفع ملفات؛ استخدم روابط مستضافة.</span><button class="btn primary" type="submit">متابعة الإضافة</button></div></form>
+  </div></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script>
-    const owner = 'albyatysjad74-art';
-    const repo = 'sorssy';
-    const sourceUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/iQsign-Apps-Source.json`;
-    const countEl = document.getElementById('app-count');
-    fetch(sourceUrl, {cache:'no-store'})
-      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
-      .then(data => { countEl.textContent = new Intl.NumberFormat('ar').format((data.apps || []).length); })
-      .catch(() => { countEl.textContent = '—'; });
-
-    const toast = document.getElementById('toast');
-    function showToast(message){ toast.textContent = message; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),2600); }
-    document.getElementById('copy-source').addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(sourceUrl); showToast('تم نسخ رابط السورس'); }
-      catch { window.prompt('انسخ رابط السورس:', sourceUrl); }
-    });
-    const iconInput = document.getElementById('iconURL');
-    const iconPreview = document.getElementById('icon-preview');
-    const previewMark = document.getElementById('preview-mark');
-    iconInput.addEventListener('input', () => {
-      const value = iconInput.value.trim();
-      iconPreview.style.display = 'none'; previewMark.style.display = 'block';
-      if (!value) return;
-      try { const u = new URL(value); if (u.protocol !== 'https:') return; iconPreview.src = value; }
-      catch { return; }
-    });
-    iconPreview.addEventListener('load', () => { iconPreview.style.display='block'; previewMark.style.display='none'; });
-    iconPreview.addEventListener('error', () => { iconPreview.style.display='none'; previewMark.style.display='block'; });
-
-    document.getElementById('app-form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const f = event.currentTarget;
-      if (!f.reportValidity()) return;
-      const value = (key) => f.elements.namedItem(key).value;
-      const name = value('name').trim();
-      const bundleIdentifier = value('bundleIdentifier').trim();
-      const version = value('version').trim();
-      const iconURL = value('iconURL').trim();
-      const downloadURL = value('downloadURL').trim();
-      if (!/^[A-Za-z0-9.-]+$/.test(bundleIdentifier) || !bundleIdentifier.includes('.')) { showToast('تحقق من معرّف الحزمة؛ مثال: com.example.app'); return; }
-      for (const raw of [iconURL, downloadURL]) { try { if (new URL(raw).protocol !== 'https:') throw new Error(); } catch { showToast('الروابط لازم تبدأ بـ https://'); return; } }
-      const app = {name, bundleIdentifier, iconURL, category:value('category'), version, downloadURL};
-      const sizeMb = Number(value('sizeMB'));
-      if (Number.isFinite(sizeMb) && sizeMb > 0) app.size = Math.round(sizeMb * 1024 * 1024);
-      const description = value('localizedDescription').trim();
-      if (description) app.localizedDescription = description;
-      const issue = new URL(`https://github.com/${owner}/${repo}/issues/new`);
-      issue.searchParams.set('title', `[Sorssy] إضافة تطبيق: ${name}`);
-      issue.searchParams.set('body', JSON.stringify(app, null, 2));
-      document.getElementById('submit-btn').disabled = true;
-      showToast('جاري فتح صفحة تأكيد الطلب…');
-      window.location.assign(issue.toString());
-    });
+    const OWNER='albyatysjad74-art', REPO='sorssy';
+    const RAW='https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/main/iQsign-Apps-Source.json';
+    const PLACEHOLDER='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" rx="18" fill="#142a42"/><path d="M24 28h32M24 40h32M24 52h22" stroke="#72cbff" stroke-width="4" stroke-linecap="round"/></svg>');
+    const state={sources:[],active:null,visible:42,selectedApp:null};
+    const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000)}
+    function validHttps(value){try{return new URL(value).protocol==='https:'}catch{return false}}
+    function imageUrl(value){return validHttps(value)?value:PLACEHOLDER}
+    function issue(title,payload){const u=new URL(`https://github.com/${OWNER}/${REPO}/issues/new`);u.searchParams.set('title',title);u.searchParams.set('body',JSON.stringify(payload,null,2));location.assign(u.toString())}
+    function wireImages(root=document){root.querySelectorAll('img[data-fallback]').forEach(img=>img.addEventListener('error',()=>{img.src=PLACEHOLDER;img.removeAttribute('data-fallback')},{once:true}))}
+    async function loadSources(){
+      try{
+        const res=await fetch('./sorssy-sources.json?ts='+Date.now(),{cache:'no-store'});if(!res.ok)throw new Error();
+        const catalog=await res.json();state.sources=Array.isArray(catalog.sources)?catalog.sources:[];
+        await Promise.all(state.sources.map(async source=>{
+          try{if(!validHttps(source.url))throw new Error('الرابط ليس HTTPS');const r=await fetch(source.url,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const data=await r.json();if(!Array.isArray(data.apps))throw new Error('المصدر لا يحتوي apps');source.data=data;source.apps=data.apps;source.loadError='';}
+          catch(e){source.data=null;source.apps=[];source.loadError='تعذر قراءة المصدر؛ قد لا يسمح بقراءة CORS أو أن الرابط غير صحيح.';}
+        }));
+        $('source-count').textContent=new Intl.NumberFormat('ar').format(state.sources.length);
+        $('apps-count').textContent=new Intl.NumberFormat('ar').format(state.sources.reduce((n,s)=>n+(s.apps?.length||0),0));renderSources();
+      }catch{ $('sources-grid').innerHTML='<p class="empty">تعذر تحميل قائمة المصادر. حدّث الصفحة بعد قليل.</p>'; }
+    }
+    function renderSources(){
+      const grid=$('sources-grid');if(!state.sources.length){grid.innerHTML='<p class="empty">ماكو مصادر بعد.</p>';return;}
+      grid.innerHTML=state.sources.map((s,i)=>`<article class="source-card"><div class="source-top"><img class="source-icon" src="${esc(imageUrl(s.iconURL||s.data?.iconURL))}" data-fallback alt=""><div><div class="source-name">${esc(s.name||s.data?.name||'مصدر')}</div><div class="source-sub">${esc(s.subtitle||s.data?.subtitle||'')}</div></div></div><div class="source-meta"><span class="tag">${new Intl.NumberFormat('ar').format(s.apps?.length||0)} تطبيق</span><span class="tag">${s.editable?'قابل للإدارة':'قراءة فقط'}</span>${s.loadError?'<span class="tag" style="color:#ffb0a8">غير متاح</span>':''}</div>${s.loadError?`<p class="source-sub">${esc(s.loadError)}</p>`:''}<div class="row-actions"><a class="link-btn" href="${esc(s.url)}" target="_blank" rel="noopener">رابط المصدر ↗</a><button class="btn primary" type="button" data-open-source="${i}" ${s.loadError?'disabled':''}>عرض التطبيقات</button></div></article>`).join('');
+      wireImages(grid);grid.querySelectorAll('[data-open-source]').forEach(b=>b.addEventListener('click',()=>openSource(Number(b.dataset.openSource))));
+    }
+    function openSource(index){state.active=state.sources[index];state.visible=42;$('sources-section').hidden=true;$('library').hidden=false;$('active-name').textContent=state.active.name||state.active.data?.name||'مصدر';$('active-subtitle').textContent=state.active.subtitle||state.active.data?.subtitle||'';$('active-icon').src=imageUrl(state.active.iconURL||state.active.data?.iconURL);$('active-icon').onerror=()=>{$('active-icon').src=PLACEHOLDER};$('raw-source-link').href=state.active.url;$('add-app-btn').hidden=!state.active.editable;setCategories();renderApps();window.scrollTo({top:0,behavior:'smooth'})}
+    function setCategories(){const select=$('category-filter');const values=[...new Set((state.active?.apps||[]).map(a=>a.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));select.innerHTML='<option value="">كل التصنيفات</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('')}
+    function filteredApps(){const q=$('search-apps').value.trim().toLocaleLowerCase();const cat=$('category-filter').value;return(state.active?.apps||[]).map((app,index)=>({app,index})).filter(({app})=>(!cat||app.category===cat)&&(!q||[app.name,app.bundleIdentifier,app.category].some(v=>String(v||'').toLocaleLowerCase().includes(q))))}
+    function renderApps(){const list=filteredApps(),visible=list.slice(0,state.visible);$('apps-list').innerHTML=visible.map(({app,index})=>`<button class="app-card" type="button" data-app-index="${index}"><img class="app-icon" src="${esc(imageUrl(app.iconURL))}" data-fallback alt=""><span class="app-info"><span class="app-name">${esc(app.name||'بدون اسم')}</span><span class="app-sub">${esc(app.category||'بدون تصنيف')} · ${esc(app.version||'—')}</span></span><span class="edit-mark">فتح ‹</span></button>`).join('');wireImages($('apps-list'));$('apps-empty').hidden=list.length!==0;$('load-more').hidden=list.length<=visible.length;$('load-more').textContent=`عرض المزيد (${Math.min(42,list.length-visible.length)})`;$('apps-list').querySelectorAll('[data-app-index]').forEach(b=>b.addEventListener('click',()=>openApp(Number(b.dataset.appIndex))))}
+    function openApp(index){const app=state.active.apps[index];state.selectedApp={index,app};const readonly=!state.active.editable;const form=$('edit-app-form');$('app-dialog-title').textContent=readonly?'تفاصيل التطبيق':'تفاصيل التطبيق وتعديله';$('app-dialog-subtitle').textContent=readonly?'هذا المصدر خارجي، البيانات للعرض فقط.':'عدّل الحقول المطلوبة ثم احفظها إلى المصدر.';$('edit-app-name').textContent=app.name||'بدون اسم';$('edit-app-id').textContent=app.bundleIdentifier||'';$('edit-icon-preview').src=imageUrl(app.iconURL);$('edit-icon-preview').onerror=()=>{$('edit-icon-preview').src=PLACEHOLDER};
+      const values={name:app.name||'',bundleIdentifier:app.bundleIdentifier||'',version:app.version||'',category:app.category||'أخرى',iconURL:app.iconURL||'',downloadURL:app.downloadURL||'',sizeMB:app.size?String((Number(app.size)/1048576).toFixed(1)):'',localizedDescription:app.localizedDescription||''};
+      for(const [k,v] of Object.entries(values)){const el=form.elements.namedItem(k);if(el)el.value=v}
+      const cat=form.elements.namedItem('category');if(![...cat.options].some(o=>o.value===values.category)){const o=document.createElement('option');o.value=values.category;o.textContent=values.category;cat.append(o)}
+      form.querySelectorAll('input,textarea,select').forEach(el=>el.disabled=readonly);$('save-edit').hidden=readonly;$('readonly-note').hidden=!readonly;$('app-dialog').showModal()}
+    function openModal(id){$(id).showModal()}
+    document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
+    $('back-sources').addEventListener('click',()=>{$('library').hidden=true;$('sources-section').hidden=false;state.active=null;window.scrollTo({top:0,behavior:'smooth'})});
+    $('search-apps').addEventListener('input',()=>{state.visible=42;renderApps()});$('category-filter').addEventListener('change',()=>{state.visible=42;renderApps()});$('load-more').addEventListener('click',()=>{state.visible+=42;renderApps()});
+    $('add-source-top').addEventListener('click',()=>openModal('source-dialog'));$('add-source-main').addEventListener('click',()=>openModal('source-dialog'));
+    $('add-app-btn').addEventListener('click',()=>openModal('add-app-dialog'));
+    $('edit-app-form').addEventListener('submit',e=>{e.preventDefault();if(!state.selectedApp||!state.active?.editable)return;const f=e.currentTarget;if(!f.reportValidity())return;const get=k=>f.elements.namedItem(k).value.trim();const bundle=get('bundleIdentifier');if(!/^[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/.test(bundle)){toast('معرّف الحزمة لازم يكون مثل com.example.app');return}const icon=get('iconURL'),download=get('downloadURL');if(!validHttps(icon)||!validHttps(download)){toast('روابط الصورة والتنزيل لازم تبدأ بـ https://');return}const sizeMb=Number(get('sizeMB'));const changes={name:get('name'),bundleIdentifier:bundle,version:get('version'),category:get('category'),iconURL:icon,downloadURL:download,localizedDescription:get('localizedDescription')};changes.size=sizeMb>0?Math.round(sizeMb*1048576):null;const app=state.selectedApp.app;const target={index:state.selectedApp.index};for(const k of ['name','bundleIdentifier','version','downloadURL','iconURL'])if(app[k]!==undefined)target[k]=app[k];issue(`[Sorssy] تعديل تطبيق: ${changes.name}`,{action:'edit_app',target,changes})});
+    $('source-form').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget;if(!f.reportValidity())return;const get=k=>f.elements.namedItem(k).value.trim();const url=get('url'),iconURL=get('iconURL');if(!validHttps(url)||iconURL&&!validHttps(iconURL)){toast('استخدم روابط HTTPS صالحة');return}const source={name:get('name'),subtitle:get('subtitle'),url,iconURL};issue(`[Sorssy] إضافة مصدر: ${source.name}`,{action:'add_source',source})});
+    $('add-app-form').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget;if(!f.reportValidity())return;const get=k=>f.elements.namedItem(k).value.trim();const bundleIdentifier=get('bundleIdentifier'),iconURL=get('iconURL'),downloadURL=get('downloadURL');if(!/^[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/.test(bundleIdentifier)){toast('معرّف الحزمة لازم يكون مثل com.example.app');return}if(!validHttps(iconURL)||!validHttps(downloadURL)){toast('روابط HTTPS مطلوبة');return}const app={name:get('name'),bundleIdentifier,version:get('version'),category:get('category'),iconURL,downloadURL,localizedDescription:get('localizedDescription')};const sizeMb=Number(get('sizeMB'));if(sizeMb>0)app.size=Math.round(sizeMb*1048576);issue(`[Sorssy] إضافة تطبيق: ${app.name}`,{action:'add_app',...app})});
+    loadSources();
   </script>
 </body>
 </html>
